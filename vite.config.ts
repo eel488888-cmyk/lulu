@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from "vite-tsconfig-paths";
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 // https://vite.dev/config/
 export default defineConfig({
   build: {
@@ -10,14 +12,11 @@ export default defineConfig({
   server: {
     cors: true,
   },
-  plugins: [
-    react({
-      babel: {
-        plugins: [
-          'react-dev-locator',
-        ],
-      },
-    }),
-    tsconfigPaths()
-  ],
+  plugins: [react({
+    babel: {
+      plugins: [
+        'react-dev-locator',
+      ],
+    },
+  }), tsconfigPaths(), cloudflare()],
 })
