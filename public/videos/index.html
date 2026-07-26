@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>王鹭芳 | Portfolio 作品集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Quicksand:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --coral:#FF6B7A;--coral-soft:#FFE4E1;--cream:#FFF8F3;--charcoal:#2A2A2A;
+  --mint:#7FD8BE;--sunny:#FFD166;--fog:#E8E8EC;
+  --serif:'Noto Serif SC','Songti SC','SimSun',serif;
+  --round:'Quicksand','PingFang SC','Microsoft YaHei',sans-serif;
+  --sans:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--charcoal);overflow-x:hidden}
+body.locked{overflow:hidden}
+
+/* ===== Keyframes ===== */
+@keyframes breathe{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+@keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+@keyframes revealUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.breathe{animation:breathe 1.8s ease-in-out infinite}
+.cursor{display:inline-block;width:4px;background:var(--coral);margin-left:4px;animation:blink .8s step-end infinite;vertical-align:middle}
+
+/* ===== Cat Overlay ===== */
+#catOverlay{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.88);transition:opacity .3s ease}
+#catOverlay.hidden{opacity:0;pointer-events:none}
+#catOverlay .cat-wrap{cursor:pointer;position:relative;border-radius:16px;overflow:hidden}
+#catOverlay video{max-height:55vh;max-width:80vw;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.5);display:block}
+#catOverlay .cat-wrap::after{content:'';position:absolute;inset:0;border-radius:16px;box-shadow:inset 0 0 0 0 rgba(255,107,122,0);transition:box-shadow .3s}
+#catOverlay .cat-wrap:hover::after{box-shadow:inset 0 0 0 3px rgba(255,107,122,.7)}
+#catOverlay p{color:#fff;font-family:var(--round)}
+#catOverlay .hint{font-size:20px;margin-top:32px}
+#catOverlay .loading{font-size:12px;color:rgba(255,255,255,.4);margin-top:8px}
+
+/* ===== Navbar ===== */
+#navbar{position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;justify-content:space-between;
+  padding:16px 40px;transform:translateY(-100%);transition:transform .5s ease,background .3s ease,backdrop-filter .3s ease;
+  background:rgba(255,255,255,.06);backdrop-filter:blur(8px)}
+#navbar.visible{transform:translateY(0)}
+#navbar.deep{background:rgba(42,42,42,.85);backdrop-filter:blur(16px)}
+#navbar .brand{font-family:var(--serif);font-weight:900;font-size:22px;color:#fff;letter-spacing:1px}
+#navbar .nav-links{display:flex;gap:28px;align-items:center}
+#navbar .nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-family:var(--round);font-weight:500;font-size:15px;
+  cursor:pointer;transition:color .2s;position:relative}
+#navbar .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--coral);transition:width .25s}
+#navbar .nav-links a:hover{color:#fff}
+#navbar .nav-links a:hover::after{width:100%}
+#hamburger{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}
+
+/* ===== Hero ===== */
+.hero{position:relative;height:100vh;width:100%;overflow:hidden;background:#000}
+.hero video#mainVideo,.hero img#stoppedFrame,.hero video#clipVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero img#stoppedFrame{opacity:0;transition:opacity .2s ease}
+.hero img#stoppedFrame.show{opacity:1}
+.hero video#clipVideo{opacity:0;transition:opacity .15s ease;z-index:5;display:none}
+.hero video#clipVideo.show{display:block}
+.hero video#clipVideo.visible{opacity:1}
+.hero video#mainVideo{opacity:0;transition:opacity .3s ease}
+.hero video#mainVideo.show{opacity:1}
+
+.hero-title{position:absolute;left:6%;top:50%;transform:translateY(-50%);z-index:10;max-width:60vw}
+.hero-title h1{font-family:var(--serif);font-weight:900;font-size:clamp(36px,6vw,60px);color:#fff;
+  text-shadow:0 4px 20px rgba(0,0,0,.5);line-height:1.2;min-height:1.2em}
+.hero-title h1 .cursor{height:0.8em}
+.hero-title .sub{font-family:var(--round);font-size:clamp(16px,2.5vw,24px);color:rgba(255,255,255,.95);
+  text-shadow:0 2px 10px rgba(0,0,0,.5);letter-spacing:3px;margin-top:12px;min-height:1.5em}
+.hero-title .sub .cursor{height:1em}
+.hero-title .scroll-hint{font-family:var(--round);font-size:14px;color:rgba(255,255,255,.7);margin-top:24px;display:none}
+.hero-title .scroll-hint.show{display:block}
+
+/* ===== Hot Zone ===== */
+#hotZone{position:absolute;right:0;top:0;width:30%;height:100%;z-index:15;cursor:pointer;display:none}
+#hotZone.active{display:block}
+#followLabel{position:fixed;z-index:95;padding:6px 12px;background:rgba(0,0,0,.55);color:#fff;
+  border-radius:4px;font-size:14px;font-family:var(--round);font-weight:500;pointer-events:none;
+  display:none;animation:toastIn .2s ease;backdrop-filter:blur(4px)}
+#followLabel.show{display:block}
+
+/* ===== Sections ===== */
+section.content{padding:100px 40px;max-width:1200px;margin:0 auto}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in-view{opacity:1;transform:translateY(0)}
+
+/* About */
+#about h2{font-family:var(--serif);font-size:clamp(24px,4vw,38px);font-weight:700;line-height:1.5;margin-bottom:40px;max-width:700px}
+.pills-section{margin-bottom:28px}
+.pills-label{font-family:var(--round);font-weight:600;font-size:16px;margin-bottom:12px}
+.pills{display:flex;flex-wrap:wrap;gap:10px}
+.pill{padding:8px 18px;border-radius:999px;font-family:var(--round);font-weight:500;font-size:14px;transition:transform .2s}
+.pill:hover{transform:translateY(-2px)}
+.pill.pink{background:var(--coral-soft);color:var(--coral);border:1px solid rgba(255,107,122,.3)}
+.pill.gray{background:var(--fog);color:#555;border:1px solid rgba(0,0,0,.08)}
+
+.cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px}
+.card{background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,.06);
+  border:2px solid transparent;transition:transform .25s,border-color .25s;cursor:pointer}
+.card:hover{transform:translateY(-6px);border-color:var(--coral)}
+.card .emoji{font-size:32px;margin-bottom:12px}
+.card .title{font-family:var(--round);font-weight:700;font-size:18px;margin-bottom:8px}
+.card .desc{font-size:14px;color:#666;line-height:1.6}
+.card .arrow{float:right;color:var(--coral);font-size:18px;opacity:0;transition:opacity .2s}
+.card:hover .arrow{opacity:1}
+
+/* Skills */
+#skills{background:#fff}
+#skills h2{font-family:var(--round);font-weight:700;font-size:32px;margin-bottom:40px}
+.skill-item{margin-bottom:24px}
+.skill-item .label{display:flex;justify-content:space-between;font-family:var(--round);font-weight:500;font-size:15px;margin-bottom:8px}
+.skill-item .bar{height:10px;background:var(--fog);border-radius:999px;overflow:hidden}
+.skill-item .fill{height:100%;width:0;background:linear-gradient(90deg,var(--coral),var(--sunny));border-radius:999px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+
+/* Contact */
+#contact{background:var(--coral-soft);text-align:center;border-radius:24px;margin:40px auto}
+#contact h2{font-family:var(--round);font-weight:700;font-size:32px;margin-bottom:32px}
+.contact-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.copy-btn{background:#fff;border:none;padding:12px 24px;border-radius:12px;font-family:var(--round);font-size:15px;
+  cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:transform .2s;display:flex;align-items:center;gap:8px}
+.copy-btn:hover{transform:translateY(-2px)}
+.copy-btn .icon{font-size:16px}
+.socials{display:flex;gap:16px;justify-content:center;margin-bottom:28px}
+.socials a{width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;
+  text-decoration:none;color:var(--coral);font-size:20px;transition:transform .2s,background .2s}
+.socials a:hover{transform:translateY(-4px);background:var(--coral);color:#fff}
+.download-btn{display:inline-block;background:var(--coral);color:#fff;padding:14px 32px;border-radius:999px;
+  font-family:var(--round);font-weight:600;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.download-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,122,.4)}
+.tagline{margin-top:32px;font-family:var(--round);color:#666;font-size:15px}
+
+/* Detail Page */
+#detailPage{position:fixed;inset:0;z-index:80;background:var(--cream);display:none;align-items:center;justify-content:center;flex-direction:column}
+#detailPage.show{display:flex}
+#detailPage .emoji{font-size:64px;margin-bottom:16px}
+#detailPage h2{font-family:var(--serif);font-size:32px;margin-bottom:16px}
+#detailPage .badge{background:var(--coral-soft);color:var(--coral);padding:8px 20px;border-radius:999px;font-family:var(--round);font-weight:500;margin-bottom:32px}
+#detailPage .back-btn{background:var(--charcoal);color:#fff;padding:12px 28px;border-radius:999px;text-decoration:none;font-family:var(--round);font-weight:500}
+
+/* Toast */
+#toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:var(--charcoal);color:#fff;
+  padding:12px 24px;border-radius:12px;font-family:var(--round);font-size:14px;z-index:200;
+  opacity:0;pointer-events:none;transition:opacity .3s}
+#toast.show{opacity:1}
+
+/* Mobile */
+@media(max-width:768px){
+  #navbar{padding:12px 20px}
+  #navbar .nav-links{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(42,42,42,.95);
+    flex-direction:column;padding:20px;gap:16px;backdrop-filter:blur(16px)}
+  #navbar .nav-links.open{display:flex}
+  #hamburger{display:block}
+  .hero-title{left:5%;max-width:90vw}
+  .cards-grid{grid-template-columns:1fr}
+  section.content{padding:60px 20px}
+  #contact{margin:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- Cat Overlay -->
+<div id="catOverlay">
+  <div class="cat-wrap" id="catWrap">
+    <video id="catVideo" src="./cat.mp4" autoplay muted playsinline></video>
+  </div>
+  <p class="hint breathe">点击小猫</p>
+  <p class="loading" id="catLoading">正在播放开场…</p>
+</div>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <div class="brand">王鹭芳</div>
+  <div class="nav-links" id="navLinks">
+    <a data-scroll="top">首页</a>
+    <a data-scroll="about">关于我</a>
+    <a data-scroll="skills">技能</a>
+    <a data-scroll="contact">联系方式</a>
+  </div>
+  <button id="hamburger">☰</button>
+</nav>
+
+<!-- Hero -->
+<section id="top" class="hero">
+  <video id="mainVideo" src="./main.mp4" playsinline preload="auto"></video>
+  <img id="stoppedFrame" alt="">
+  <video id="clipVideo" src="./clip.mp4" playsinline preload="auto"></video>
+  <div class="hero-title">
+    <h1 id="titleName"></h1>
+    <div class="sub" id="titleSub"></div>
+    <div class="scroll-hint breathe" id="scrollHint">向下滚动，了解更多 ↓</div>
+  </div>
+  <div id="hotZone"></div>
+</div>
+
+<!-- Follow Label -->
+<div id="followLabel">点击我</div>
+
+<!-- About -->
+<section id="about" class="content reveal">
+  <h2>你好，我叫王鹭芳，热爱内容创作与策划，会用AI把灵感变成作品。</h2>
+  <div class="pills-section">
+    <div class="pills-label">✨ 擅长</div>
+    <div class="pills">
+      <span class="pill pink">策划</span>
+      <span class="pill pink">创意</span>
+      <span class="pill pink">内容运营</span>
+      <span class="pill pink">文案</span>
+    </div>
+  </div>
+  <div class="pills-section">
+    <div class="pills-label">🛠️ 工具</div>
+    <div class="pills">
+      <span class="pill gray">Midjourney</span>
+      <span class="pill gray">GPTs</span>
+      <span class="pill gray">Kling</span>
+      <span class="pill gray">Nanobanana</span>
+      <span class="pill gray">Codex</span>
+    </div>
+  </div>
+  <div class="cards-grid">
+    <div class="card" data-route="account">
+      <span class="arrow">↗</span>
+      <div class="emoji">📱</div>
+      <div class="title">账号运营</div>
+      <div class="desc">小红书摄影账号、小红书影视娱乐账号、抖音AI账号（AI账号半个月两万浏览1000+点赞）</div>
+    </div>
+    <div class="card" data-route="project">
+      <span class="arrow">↗</span>
+      <div class="emoji">🎯</div>
+      <div class="title">项目</div>
+      <div class="desc">雅迪校园星推官（河南省第二）、一书一荐读（校园重点项目）</div>
+    </div>
+    <div class="card" data-route="internship">
+      <span class="arrow">↗</span>
+      <div class="emoji">💼</div>
+      <div class="title">实习经历</div>
+      <div class="desc">省文旅厅编辑策划、喜马拉雅文案策划等</div>
+    </div>
+    <div class="card" data-route="campus">
+      <span class="arrow">↗</span>
+      <div class="emoji">🎓</div>
+      <div class="title">校园经历</div>
+      <div class="desc">研究生会副主席，校友会学生助理等</div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills" class="content reveal">
+  <h2>💡 技能</h2>
+  <div class="skill-item">
+    <div class="label"><span>文案撰写与脚本创作</span><span>95%</span></div>
+    <div class="bar"><div class="fill" data-percent="95"></div></div>
+  </div>
+  <div class="skill-item">
+    <div class="label"><span>内容策划与选题</span><span>90%</span></div>
+    <div class="bar"><div class="fill" data-percent="90"></div></div>
+  </div>
+  <div class="skill-item">
+    <div class="label"><span>爆款拆解与数据分析</span><span>85%</span></div>
+    <div class="bar"><div class="fill" data-percent="85"></div></div>
+  </div>
+  <div class="skill-item">
+    <div class="label"><span>AI工具使用</span><span>80%</span></div>
+    <div class="bar"><div class="fill" data-percent="80"></div></div>
+  </div>
+  <div class="skill-item">
+    <div class="label"><span>视频剪辑与制图</span><span>75%</span></div>
+    <div class="bar"><div class="fill" data-percent="75"></div></div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="content reveal">
+  <h2>联系方式</h2>
+  <div class="contact-row">
+    <button class="copy-btn" data-copy="wanglufang@example.com"><span class="icon">✉️</span>wanglufang@example.com</button>
+    <button class="copy-btn" data-copy="13800000000"><span class="icon">📱</span>138 0000 0000</button>
+  </div>
+  <div class="socials">
+    <a href="#" title="GitHub">GH</a>
+    <a href="#" title="Instagram">IG</a>
+    <a href="#" title="微信">WX</a>
+    <a href="#" title="小红书">RED</a>
+  </div>
+  <a href="#" class="download-btn">下载简历 PDF</a>
+  <p class="tagline">如果你对AI+内容感兴趣，欢迎随时找我聊聊 ☕</p>
+</section>
+
+<!-- Detail Page -->
+<div id="detailPage">
+  <div class="emoji" id="detailEmoji"></div>
+  <h2 id="detailTitle"></h2>
+  <div class="badge">详情页即将上线</div>
+  <a href="#top" class="back-btn">返回首页</a>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  // ===== Elements =====
+  var catOverlay=document.getElementById('catOverlay');
+  var catVideo=document.getElementById('catVideo');
+  var catWrap=document.getElementById('catWrap');
+  var catLoading=document.getElementById('catLoading');
+  var mainVideo=document.getElementById('mainVideo');
+  var stoppedFrame=document.getElementById('stoppedFrame');
+  var clipVideo=document.getElementById('clipVideo');
+  var hotZone=document.getElementById('hotZone');
+  var followLabel=document.getElementById('followLabel');
+  var navbar=document.getElementById('navbar');
+  var navLinks=document.getElementById('navLinks');
+  var hamburger=document.getElementById('hamburger');
+  var titleName=document.getElementById('titleName');
+  var titleSub=document.getElementById('titleSub');
+  var scrollHint=document.getElementById('scrollHint');
+  var toast=document.getElementById('toast');
+  var detailPage=document.getElementById('detailPage');
+
+  var state='cat'; // cat | main | stopped | clip
+  var stoppedDataUrl=null;
+
+  // ===== Cat Video =====
+  catVideo.addEventListener('ended',function(){ catLoading.style.display='none'; });
+  catVideo.addEventListener('error',function(){ catLoading.textContent='视频加载失败，请刷新'; });
+
+  catWrap.addEventListener('click',function(){
+    if(state!=='cat')return;
+    state='main';
+    catOverlay.classList.add('hidden');
+    document.body.classList.remove('locked');
+    setTimeout(function(){ catOverlay.style.display='none'; },320);
+    // Show navbar
+    navbar.classList.add('visible');
+    // Play main video
+    mainVideo.classList.add('show');
+    mainVideo.currentTime=0;
+    var p=mainVideo.play();
+    if(p&&p.catch)p.catch(function(err){ console.warn('主视频播放失败:',err); });
+    // Start typing
+    setTimeout(typeTitle,600);
+  });
+
+  // ===== Main Video Ended → Capture Frame =====
+  mainVideo.addEventListener('ended',function(){
+    if(state!=='main')return;
+    state='stopped';
+    captureFrame();
+  });
+  mainVideo.addEventListener('error',function(e){ console.error('主视频错误:',e); });
+
+  function captureFrame(){
+    try{
+      var canvas=document.createElement('canvas');
+      canvas.width=mainVideo.videoWidth||1280;
+      canvas.height=mainVideo.videoHeight||720;
+      var ctx=canvas.getContext('2d');
+      ctx.drawImage(mainVideo,0,0,canvas.width,canvas.height);
+      stoppedDataUrl=canvas.toDataURL('image/jpeg',0.92);
+      stoppedFrame.src=stoppedDataUrl;
+    }catch(e){
+      console.warn('Canvas截取失败，使用视频定格:',e);
+      // Fallback: keep main video paused at last frame
+      stoppedFrame.style.display='none';
+    }
+    stoppedFrame.classList.add('show');
+    // Hide main video to free resources
+    mainVideo.classList.remove('show');
+    // Activate hot zone
+    hotZone.classList.add('active');
+  }
+
+  // ===== Typing Effect =====
+  function typeWriter(el,text,speed,cb){
+    var i=0;
+    el.innerHTML='<span class="cursor"></span>';
+    (function type(){
+      if(i<text.length){
+        el.innerHTML=escapeHtml(text.slice(0,i+1))+'<span class="cursor"></span>';
+        i++;
+        setTimeout(type,speed);
+      }else{
+        if(cb)cb();
+      }
+    })();
+  }
+  function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+  function typeTitle(){
+    typeWriter(titleName,'王鹭芳',80,function(){
+      typeWriter(titleSub,'Portfolio  作品集',80,function(){
+        scrollHint.classList.add('show');
+      });
+    });
+  }
+
+  // ===== Hot Zone =====
+  hotZone.addEventListener('mousemove',function(e){
+    followLabel.style.left=(e.clientX+10)+'px';
+    followLabel.style.top=(e.clientY+10)+'px';
+    followLabel.classList.add('show');
+  });
+  hotZone.addEventListener('mouseleave',function(){
+    followLabel.classList.remove('show');
+  });
+  hotZone.addEventListener('click',function(){
+    if(state!=='stopped')return;
+    state='clip';
+    followLabel.classList.remove('show');
+    // Fade out stopped frame
+    stoppedFrame.classList.remove('show');
+    // Show and play clip
+    clipVideo.classList.add('show');
+    clipVideo.currentTime=0;
+    var p=clipVideo.play();
+    if(p&&p.catch)p.catch(function(err){ console.warn('彩蛋视频播放失败:',err); });
+    // Wait for first frame then make visible
+    clipVideo.addEventListener('loadeddata',function onLd(){
+      clipVideo.removeEventListener('loadeddata',onLd);
+      clipVideo.classList.add('visible');
+    });
+    // Fallback: show after 100ms
+    setTimeout(function(){ clipVideo.classList.add('visible'); },100);
+  });
+
+  // ===== Clip Video Ended → Back to Stopped =====
+  clipVideo.addEventListener('ended',function(){
+    if(state!=='clip')return;
+    state='stopped';
+    // Instantly hide clip
+    clipVideo.classList.remove('visible');
+    setTimeout(function(){
+      clipVideo.classList.remove('show');
+      clipVideo.currentTime=0;
+      // Fade in stopped frame
+      stoppedFrame.classList.add('show');
+    },150);
+  });
+  clipVideo.addEventListener('error',function(e){
+    console.error('彩蛋视频错误:',e);
+    // Revert to stopped on error
+    if(state==='clip'){
+      state='stopped';
+      clipVideo.classList.remove('show','visible');
+      stoppedFrame.classList.add('show');
+    }
+  });
+
+  // ===== Navbar Scroll =====
+  window.addEventListener('scroll',function(){
+    if(window.scrollY>window.innerHeight*0.8){
+      navbar.classList.add('deep');
+    }else{
+      navbar.classList.remove('deep');
+    }
+  },{passive:true});
+
+  // ===== Smooth Scroll =====
+  document.querySelectorAll('[data-scroll]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var target=this.getAttribute('data-scroll');
+      navLinks.classList.remove('open');
+      // If detail page is open, close it first
+      if(detailPage.classList.contains('show')){
+        detailPage.classList.remove('show');
+        location.hash='';
+      }
+      if(target==='top'){
+        window.scrollTo({top:0,behavior:'smooth'});
+      }else{
+        var el=document.getElementById(target);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+    });
+  });
+
+  // ===== Hamburger =====
+  hamburger.addEventListener('click',function(){
+    navLinks.classList.toggle('open');
+  });
+
+  // ===== Scroll Reveal =====
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        // Animate skill bars
+        if(entry.target.id==='skills'){
+          entry.target.querySelectorAll('.fill').forEach(function(f,i){
+            setTimeout(function(){
+              f.style.width=f.getAttribute('data-percent')+'%';
+            },i*150);
+          });
+        }
+      }
+    });
+  },{threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
+
+  // ===== Copy to Clipboard =====
+  document.querySelectorAll('.copy-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var text=this.getAttribute('data-copy');
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){showToast('已复制: '+text);})
+          .catch(function(){fallbackCopy(text);});
+      }else{
+        fallbackCopy(text);
+      }
+    });
+  });
+  function fallbackCopy(text){
+    var ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');showToast('已复制: '+text);}catch(e){showToast('复制失败');}
+    document.body.removeChild(ta);
+  }
+  function showToast(msg){
+    toast.textContent=msg;
+    toast.classList.add('show');
+    setTimeout(function(){toast.classList.remove('show');},1800);
+  }
+
+  // ===== Card Click → Detail Page =====
+  var routeMeta={
+    account:{emoji:'📱',title:'账号运营'},
+    project:{emoji:'🎯',title:'项目'},
+    internship:{emoji:'💼',title:'实习经历'},
+    campus:{emoji:'🎓',title:'校园经历'}
+  };
+  document.querySelectorAll('.card').forEach(function(card){
+    card.addEventListener('click',function(){
+      var route=this.getAttribute('data-route');
+      location.hash='#/'+route;
+    });
+  });
+
+  // ===== Hash Routing =====
+  function handleHash(){
+    var hash=location.hash;
+    if(hash.startsWith('#/')){
+      var route=hash.slice(2);
+      var meta=routeMeta[route];
+      if(meta){
+        document.getElementById('detailEmoji').textContent=meta.emoji;
+        document.getElementById('detailTitle').textContent=meta.title;
+        detailPage.classList.add('show');
+        window.scrollTo(0,0);
+        return;
+      }
+    }
+    detailPage.classList.remove('show');
+  }
+  window.addEventListener('hashchange',handleHash);
+  handleHash();
+
+  // Detail page back button
+  document.querySelector('#detailPage .back-btn').addEventListener('click',function(e){
+    e.preventDefault();
+    location.hash='';
+    detailPage.classList.remove('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  // ===== Init =====
+  document.body.classList.add('locked');
+  // Try to play cat video (some browsers need explicit play)
+  if(catVideo.readyState>=2){ catLoading.style.display='none'; }
+  catVideo.addEventListener('loadeddata',function(){ catLoading.style.display='none'; });
+
+})();
+</script>
+</body>
+</html>

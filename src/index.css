@@ -1,0 +1,226 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --coral: #ff6b7a;
+  --coral-soft: #ffe4e1;
+  --cream: #fff8f3;
+  --charcoal: #2a2a2a;
+  --mint: #7fd8be;
+  --sunny: #ffd166;
+  --fog: #e8e8ec;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Quicksand", "Noto Sans SC", sans-serif;
+  background-color: var(--cream);
+  color: var(--charcoal);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* ===== 滚动条美化 ===== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--coral), #ffb4bb);
+  border-radius: 999px;
+}
+
+/* ============ 动画关键帧 ============ */
+
+/* 呼吸闪烁（点击小猫文字） */
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-6px);
+  }
+}
+.anim-breathe {
+  animation: breathe 1.8s ease-in-out infinite;
+}
+
+/* 打字光标闪烁 */
+@keyframes cursor-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+.anim-cursor {
+  animation: cursor-blink 0.8s step-end infinite;
+}
+
+/* 从上方滑入（导航栏） */
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.anim-slide-down {
+  animation: slide-down 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 逐字浮现 */
+@keyframes char-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.anim-char {
+  display: inline-block;
+  animation: char-pop 0.3s ease both;
+}
+
+/* 淡入上浮（视口进入） */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 视口进入触发：默认隐藏，加 .in-view 后播放 */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 进度条填充 */
+.bar-fill {
+  width: 0;
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.bar-fill.in-view {
+  /* width 由内联 style 控制目标值 */
+}
+
+/* 卡片 hover 上浮 */
+.card-hover {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  border-color: var(--coral);
+  box-shadow: 0 18px 40px rgba(255, 107, 122, 0.18);
+}
+
+/* 社交图标 hover 放大 */
+.social-icon {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.social-icon:hover {
+  transform: scale(1.2) rotate(-6deg);
+  color: var(--coral);
+}
+
+/* 浮动装饰 */
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(6deg);
+  }
+}
+.anim-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+/* Toast 弹出 */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.anim-toast {
+  animation: toast-in 0.3s ease both;
+}
+
+/* 水波纹扩散动画 */
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+    box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+  }
+}
+.animate-ripple {
+  animation: ripple 1.2s ease-out infinite;
+}
+
+/* 背景网格纹理 */
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(255, 107, 122, 0.18) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+/* 文字渐变 */
+.text-gradient-coral {
+  background: linear-gradient(120deg, #ff6b7a 0%, #ff9a6c 50%, #ffd166 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
