@@ -27,9 +27,25 @@ export default function ContactSection() {
   const [downloading, setDownloading] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  const RESUME_URL = "/王鹭芳_简历.pdf";
+  const RESUME_FILE_NAME = "王鹭芳_简历.pdf";
+
   const handleDownload = () => {
     setDownloading(true);
-    window.setTimeout(() => setDownloading(false), 1500);
+    try {
+      const link = document.createElement("a");
+      link.href = RESUME_URL;
+      link.download = RESUME_FILE_NAME;
+      link.rel = "noopener";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      // 兜底：直接在新标签打开
+      window.open(RESUME_URL, "_blank", "noopener");
+    } finally {
+      window.setTimeout(() => setDownloading(false), 1500);
+    }
   };
 
   const handleImageLoad = () => {

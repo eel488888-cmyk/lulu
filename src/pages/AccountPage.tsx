@@ -7,11 +7,24 @@ interface WorkItem {
   url: string;
 }
 
+interface Highlight {
+  value: string;
+  label: string;
+  accent?: "coral" | "mint" | "sunny" | "lavender";
+}
+
 interface Account {
   id: string;
   name: string;
   platform: string;
-  description: string;
+  dateRange: string;
+  role: string;
+  summary: string;
+  highlights: Highlight[];
+  details: {
+    title: string;
+    content: string;
+  }[];
   placeholderText: string;
   coverImage?: string;
   works: WorkItem[];
@@ -19,47 +32,118 @@ interface Account {
 
 const ACCOUNTS: Account[] = [
   {
-    id: "xiaohongshu-photo",
-    name: "小红书摄影账号",
-    platform: "小红书",
-    description: "摄影作品分享，累计赞藏 ***",
-    placeholderText: "小红书摄影",
-    coverImage: "/images/account-photo-cover.jpg",
+    id: "douyin-ai",
+    name: "抖音AI账号",
+    platform: "抖音",
+    dateRange: "2026.07.22 – 至今",
+    role: "独立运营 · AIGC内容创作",
+    summary: "聚焦AIGC内容创作，上线1个月内视频累计播放量突破10w+，单条视频最高点赞收藏近2k。",
+    highlights: [
+      { value: "10W+", label: "累计播放量", accent: "coral" },
+      { value: "2K", label: "单条最高赞藏", accent: "sunny" },
+      { value: "AI拼贴", label: "差异化视觉", accent: "mint" },
+      { value: "Codex", label: "自动化工作流", accent: "lavender" },
+    ],
+    details: [
+      {
+        title: "内容运营与数据成果",
+        content: "独立运营抖音AI账号，聚焦AIGC内容创作，上线1个月内视频累计播放量突破10w+，单条视频最高点赞收藏近2k。",
+      },
+      {
+        title: "AI创作实践",
+        content: "运用AI工具完成照片拼贴创作，探索AI视觉内容的差异化表达，形成个人化的AI拼贴创作技能。",
+      },
+      {
+        title: "AI工作流搭建",
+        content: "使用Codex搭建自媒体运营工作流，将内容策划、素材整理、创作辅助等环节流程化、自动化，提升内容生产效率。",
+      },
+      {
+        title: "Vibe Coding实践",
+        content: "通过Vibe Coding独立完成个人网页搭建，将AI辅助编程能力落地为可访问的个人作品。",
+      },
+    ],
+    placeholderText: "抖音AI",
+    coverImage: "/images/douyin-cover.jpg",
     works: [
-      { title: "摄影作品1", type: "image", url: "/images/photography-1.jpg" },
-      { title: "摄影作品2", type: "image", url: "/images/photography-2.jpg" },
-      { title: "摄影作品3", type: "image", url: "/images/photography-3.jpg" },
-      { title: "摄影作品4", type: "image", url: "/images/photography-4.jpg" },
-      { title: "摄影作品5", type: "image", url: "/images/photography-5.jpg" },
-      { title: "摄影作品6", type: "image", url: "/images/photography-6.jpg" },
-      { title: "摄影作品7", type: "image", url: "/images/photography-7.jpg" },
-      { title: "摄影作品8", type: "image", url: "/images/photography-8.jpg" },
+      { title: "AI拼贴作品", type: "image", url: "/images/douyin-img-1.jpg" },
+      { title: "数据详情-8万播放", type: "image", url: "/images/douyin-data-stats.jpg" },
+      { title: "内容视频1", type: "video", url: "/images/douyin-video-1.mp4" },
+      { title: "内容视频2", type: "video", url: "/images/douyin-video-2.mp4" },
     ],
   },
   {
     id: "xiaohongshu-entertainment",
     name: "小红书影视娱乐账号",
     platform: "小红书",
-    description: "影视剪辑与推荐，浏览量 ***",
+    dateRange: "2024.04 – 2025.06",
+    role: "内容策划与运营 · 影视垂类",
+    summary: "输出原创内容38篇，累计浏览量40w+，赞藏1.1w+，策划\"文学学生水平下降一万倍\"系列、\"诺贝尔文学奖换人\"等爆款选题，总结出强共鸣标题与利他性教程结合的爆款公式，账号互动率提升76%。",
+    highlights: [
+      { value: "40W+", label: "累计浏览量", accent: "coral" },
+      { value: "4K+", label: "单篇最高点赞", accent: "sunny" },
+      { value: "+76%", label: "互动率提升", accent: "mint" },
+      { value: "爆款公式", label: "标题+教程", accent: "lavender" },
+    ],
+    details: [
+      {
+        title: "内容策划与爆款产出",
+        content: "运营影视垂类账号，输出原创内容，策划\"文学学生水平下降一万倍\"系列、\"诺贝尔文学奖换人\"等爆款选题，单篇最高点赞4177，总结出强共鸣标题与利他性教程结合的爆款公式，账号互动率提升76%。",
+      },
+      {
+        title: "用户增长与运营",
+        content: "执行账号日常运营策略，通过用户画像分析与博主对标，采用\"教程+成片\"模式提升转化，策划粉丝互动活动。",
+      },
+      {
+        title: "数据分析",
+        content: "以周为维度监控账号核心数据并进行复盘，通过数据驱动内容优化与策略调整。",
+      },
+    ],
     placeholderText: "小红书影视",
     coverImage: "/images/account-drama-cover.jpg",
     works: [
-      { title: "作品1", type: "image", url: "https://via.placeholder.com/400x400.png?text=影视作品1" },
-      { title: "作品2", type: "image", url: "https://via.placeholder.com/400x400.png?text=影视作品2" },
+      { title: "账号主页-一个水罐", type: "image", url: "/images/xhs-home.jpg" },
+      { title: "文学学生爆款笔记", type: "image", url: "/images/xhs-literature-student.jpg" },
+      { title: "诺奖换人爆款笔记", type: "image", url: "/images/xhs-nobel-prize.jpg" },
     ],
   },
   {
-    id: "douyin-ai",
-    name: "抖音AI账号",
-    platform: "抖音",
-    description: "AI生成内容，成绩***",
-    placeholderText: "抖音AI",
-    coverImage: "/images/douyin-cover.jpg",
+    id: "xiaohongshu-photo",
+    name: "小红书摄影账号",
+    platform: "小红书",
+    dateRange: "2024.04 – 2025.06",
+    role: "内容策划与运营 · 摄影垂类",
+    summary: "摄影作品分享，执行日常运营策略，策划\"杨超越写真复刻\"等爆款教程选题，实现摄影类账号点赞收藏破千，用户转化率65%，粉丝月环比增长53%。",
+    highlights: [
+      { value: "1K+", label: "点赞收藏破千", accent: "coral" },
+      { value: "65%", label: "用户转化率", accent: "sunny" },
+      { value: "+53%", label: "粉丝月环比增长", accent: "mint" },
+      { value: "教程+成片", label: "转化模式", accent: "lavender" },
+    ],
+    details: [
+      {
+        title: "内容策划与爆款产出",
+        content: "策划\"杨超越写真复刻\"等爆款教程选题，采用\"教程+成片\"双栏对比模式输出，总结出强共鸣标题与利他性教程结合的爆款公式，账号互动率显著提升。",
+      },
+      {
+        title: "用户增长与运营",
+        content: "执行账号日常运营策略，通过用户画像分析与博主对标，采用\"教程+成片\"模式提升转化，策划粉丝互动活动，实现摄影类账号点赞收藏破千，用户转化率65%，粉丝月环比增长53%。",
+      },
+      {
+        title: "数据分析",
+        content: "以周为维度监控账号核心数据并进行复盘，通过数据驱动内容优化与策略调整，带动账号粉丝增长25%。",
+      },
+    ],
+    placeholderText: "小红书摄影",
+    coverImage: "/images/account-photo-cover.jpg",
     works: [
-      { title: "内容图片1", type: "image", url: "/images/douyin-img-1.jpg" },
-      { title: "内容图片2", type: "image", url: "/images/douyin-img-2.jpg" },
-      { title: "内容视频1", type: "video", url: "/images/douyin-video-1.mp4" },
-      { title: "内容视频2", type: "video", url: "/images/douyin-video-2.mp4" },
+      { title: "樱花JK写真笔记", type: "image", url: "/images/photo-orig-1-sakura-jk.webp" },
+      { title: "青苹果仿拍构图教程", type: "image", url: "/images/photo-orig-2-apple-tutorial.png" },
+      { title: "毕业封神照", type: "image", url: "/images/photo-orig-3-graduation-fengshen.png" },
+      { title: "郑大拜拜毕业照", type: "image", url: "/images/photo-orig-4-zzu-bye.png" },
+      { title: "杨超越写真复刻", type: "image", url: "/images/photo-ycy-replica.jpg" },
+      { title: "田园少女写真", type: "image", url: "/images/photography-5.jpg" },
+      { title: "日系胶片人像", type: "image", url: "/images/photography-6.jpg" },
+      { title: "户外清新写真", type: "image", url: "/images/photography-8.jpg" },
     ],
   },
 ];
@@ -156,8 +240,41 @@ function AccountCard({ account, onClick }: { account: Account; onClick: () => vo
           className="mt-1 text-xs"
           style={{ color: "#A0AEC0" }}
         >
-          {account.description}
+          {account.summary.length > 60 ? account.summary.slice(0, 60) + "..." : account.summary}
         </p>
+      </div>
+    </div>
+  );
+}
+
+const ACCENT_COLORS: Record<string, { bg: string; text: string }> = {
+  coral: { bg: "#FFF0F0", text: "#FF6B6B" },
+  mint: { bg: "#E8F8F1", text: "#38B27A" },
+  sunny: { bg: "#FFF8E6", text: "#E6A23C" },
+  lavender: { bg: "#F0EEFF", text: "#7A6FE0" },
+};
+
+function HighlightCard({ highlight }: { highlight: Highlight }) {
+  const colors = ACCENT_COLORS[highlight.accent || "coral"];
+  return (
+    <div
+      className="rounded-2xl px-4 py-4 text-center transition-all hover:-translate-y-0.5"
+      style={{
+        background: colors.bg,
+        border: `2px solid ${colors.bg}`,
+      }}
+    >
+      <div
+        className="text-2xl font-extrabold"
+        style={{ color: colors.text, fontFamily: "Inter, system-ui, sans-serif" }}
+      >
+        {highlight.value}
+      </div>
+      <div
+        className="mt-1 text-xs font-medium"
+        style={{ color: "#4A5568" }}
+      >
+        {highlight.label}
       </div>
     </div>
   );
@@ -177,78 +294,67 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
   return (
     <>
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+        className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 p-4 overflow-y-auto"
         onClick={onClose}
       >
         <div
-          className="w-full max-w-4xl max-h-[85vh] overflow-y-auto rounded-2xl"
+          className="w-full max-w-3xl my-8 rounded-3xl overflow-hidden"
           style={{
-            background: "#FFFFFF",
-            animation: "modal-fade-in 0.2s ease-out",
+            background: "#FFFDF8",
+            animation: "modal-fade-in 0.25s ease-out",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
           }}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="relative">
             <button
-              className="fixed right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-600 transition-colors hover:bg-gray-200"
+              className="fixed right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow-md transition-colors hover:bg-white hover:text-gray-800"
               onClick={onClose}
             >
               <X size={20} />
             </button>
 
-            <div className="p-6 pt-14">
-              <h2
-                className="text-2xl font-bold"
-                style={{ color: "#2C3E50" }}
-              >
-                {account.name}
-              </h2>
-              <p
-                className="mt-2 text-sm"
-                style={{ color: "#A0AEC0" }}
-              >
-                {account.platform} · {account.description}
-              </p>
-
-              <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {account.works.map((work, index) => (
+            {/* 顶部作品图片区（参考图片顶部拼贴风格） */}
+            <div
+              className="w-full px-6 pt-8 pb-2"
+              style={{ background: "linear-gradient(180deg, #FFF6E8 0%, #FFFDF8 100%)" }}
+            >
+              <div className="grid grid-cols-3 gap-2">
+                {account.works.slice(0, 3).map((work, index) => (
                   <div
                     key={index}
-                    className="cursor-pointer group rounded-lg overflow-hidden shadow-md"
-                    onClick={() => setSelectedWork(work)}
+                    className={`rounded-xl overflow-hidden shadow-md ${index === 0 ? "col-span-2 row-span-2 aspect-[4/3]" : "aspect-square"}`}
+                    style={{ border: "3px solid #FFFFFF" }}
                   >
                     {work.type === "image" ? (
                       imageErrors.has(index) ? (
                         <div
-                          className="h-32 sm:h-40 w-full flex items-center justify-center text-gray-400"
-                          style={{ background: "#F7F9FC" }}
+                          className="h-full w-full flex items-center justify-center text-gray-400 text-xs"
+                          style={{ background: "#F0EDE4" }}
                         >
-                          <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
+                          {work.title}
                         </div>
                       ) : (
                         <img
                           src={work.url}
                           alt={work.title}
-                          className="h-32 sm:h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          className="h-full w-full object-cover"
                           onError={() => handleImageError(index, work.url)}
                         />
                       )
                     ) : (
-                      <div className="relative h-32 sm:h-40 w-full">
+                      <div className="relative h-full w-full">
                         <img
                           src={work.url.replace(".mp4", ".jpg")}
                           alt={work.title}
                           className="h-full w-full object-cover"
                           onError={(e) => {
-                            console.warn(`视频封面加载失败: ${work.url}`);
                             const target = e.target as HTMLImageElement;
-                            target.src = "https://via.placeholder.com/400x225.png?text=Video";
+                            target.src = "https://via.placeholder.com/400x300.png?text=Video";
                           }}
                         />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                          <svg className="h-10 w-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/25">
+                          <svg className="h-10 w-10 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M8 5v14l11-7z" />
                           </svg>
                         </div>
@@ -256,6 +362,226 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
                     )}
                   </div>
                 ))}
+                {account.works.length > 3 && (
+                  <div
+                    className="aspect-square rounded-xl overflow-hidden shadow-md flex items-center justify-center text-sm font-bold"
+                    style={{
+                      background: "#F0EDE4",
+                      color: "#7A6A52",
+                      border: "3px solid #FFFFFF",
+                    }}
+                  >
+                    +{account.works.length - 3}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="px-8 py-6">
+              {/* 标签 */}
+              <div className="mb-3 flex flex-wrap gap-2">
+                <span
+                  className="inline-block rounded-full px-3 py-1 text-xs font-semibold"
+                  style={{
+                    background: "#FFE8E0",
+                    color: "#E87A5F",
+                  }}
+                >
+                  {account.platform}账号 · {account.role.split("·")[0].trim()}
+                </span>
+              </div>
+
+              {/* 时间 & 角色 */}
+              <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                <span
+                  className="text-sm font-medium"
+                  style={{ color: "#8B7355", fontFamily: "Inter, system-ui, sans-serif" }}
+                >
+                  {account.dateRange}
+                </span>
+                <span
+                  className="text-sm"
+                  style={{ color: "#A48C6A" }}
+                >
+                  {account.role}
+                </span>
+              </div>
+
+              {/* 账号名称 */}
+              <h2
+                className="text-4xl font-bold"
+                style={{
+                  color: "#2B2216",
+                  fontFamily: '"Noto Serif SC", "Noto Serif", serif',
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                {account.name}
+              </h2>
+
+              {/* 一句话总结 */}
+              <p
+                className="mt-3 text-base leading-relaxed"
+                style={{ color: "#5A4A35", lineHeight: "1.75" }}
+              >
+                {account.summary}
+              </p>
+
+              {/* 数据亮点卡片（参考图片中的四格卡片） */}
+              <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {account.highlights.map((h, i) => (
+                  <HighlightCard key={i} highlight={h} />
+                ))}
+              </div>
+
+              {/* 详细条目 */}
+              <div className="mt-8 space-y-5">
+                {account.details.map((detail, idx) => (
+                  <div key={idx}>
+                    <div
+                      className="flex items-center gap-2 mb-2"
+                    >
+                      <span
+                        className="inline-block w-1 h-4 rounded-full"
+                        style={{ background: "#FF6B6B" }}
+                      />
+                      <h3
+                        className="font-bold text-lg"
+                        style={{ color: "#2B2216" }}
+                      >
+                        {detail.title}
+                      </h3>
+                    </div>
+                    <p
+                      className="pl-3 text-sm leading-relaxed"
+                      style={{
+                        color: "#5A4A35",
+                        lineHeight: "1.9",
+                        whiteSpace: "normal",
+                        overflowWrap: "anywhere",
+                      }}
+                    >
+                      {detail.content}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* 作品 gallery */}
+              {account.works.length > 0 && (
+                <div className="mt-8">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span
+                      className="inline-block w-1 h-4 rounded-full"
+                      style={{ background: "#FF6B6B" }}
+                    />
+                    <h3
+                      className="font-bold text-lg"
+                      style={{ color: "#2B2216" }}
+                    >
+                      作品展示
+                    </h3>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {account.works.map((work, index) => {
+                      const accentPalette = [
+                        { bg: "linear-gradient(135deg,#FFE5D9 0%,#FFCAD4 100%)", fg: "#9A3B49" },
+                        { bg: "linear-gradient(135deg,#D8F3DC 0%,#B7E4C7 100%)", fg: "#2D6A4F" },
+                        { bg: "linear-gradient(135deg,#FFF3B0 0%,#FFDF8C 100%)", fg: "#7A5A00" },
+                        { bg: "linear-gradient(135deg,#E0E7FF 0%,#C7D2FE 100%)", fg: "#4338CA" },
+                        { bg: "linear-gradient(135deg,#FCE7F3 0%,#FBCFE8 100%)", fg: "#9D174D" },
+                        { bg: "linear-gradient(135deg,#CCFBF1 0%,#99F6E4 100%)", fg: "#115E59" },
+                      ];
+                      const palette = accentPalette[index % accentPalette.length];
+                      const encodedTitle = encodeURIComponent(work.title);
+                      const fallbackUrl = `https://via.placeholder.com/400x320?bg=${encodeURIComponent(
+                        "#F5F1E8"
+                      )}&fg=${encodeURIComponent("#5A4A35")}&text=${encodedTitle}`;
+                      return (
+                        <div
+                          key={index}
+                          className="cursor-pointer group rounded-xl overflow-hidden shadow-md transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+                          onClick={() => setSelectedWork(work)}
+                        >
+                          {work.type === "image" ? (
+                            imageErrors.has(index) ? (
+                              <div
+                                className="h-28 sm:h-36 w-full flex flex-col items-center justify-center px-2 text-center font-bold"
+                                style={{ background: palette.bg, color: palette.fg }}
+                              >
+                                <div
+                                  className="text-xs leading-tight"
+                                  style={{
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  {work.title}
+                                </div>
+                                <div className="mt-2 text-[10px] opacity-70">作品预览</div>
+                              </div>
+                            ) : (
+                              <img
+                                src={work.url}
+                                alt={work.title}
+                                className="h-28 sm:h-36 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                onError={(e) => {
+                                  handleImageError(index, work.url);
+                                  const target = e.target as HTMLImageElement;
+                                  target.onerror = null;
+                                  target.src = fallbackUrl;
+                                }}
+                              />
+                            )
+                          ) : (
+                            <div className="relative h-28 sm:h-36 w-full">
+                              <img
+                                src={work.url.replace(".mp4", ".jpg")}
+                                alt={work.title}
+                                className="h-full w-full object-cover"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.onerror = null;
+                                  target.src =
+                                    "https://via.placeholder.com/400x225/2B2216/FFFFFF?text=%F0%9F%8E%AC+Video";
+                                }}
+                              />
+                              <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
+                                <svg className="h-9 w-9 text-white drop-shadow" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M8 5v14l11-7z" />
+                                </svg>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* 底部装饰链接 */}
+              <div className="mt-10 pt-4 border-t border-amber-100 flex items-center justify-center gap-2">
+                <span
+                  className="text-sm font-semibold"
+                  style={{ color: "#C0523A" }}
+                >
+                  ✨
+                </span>
+                <span
+                  className="text-sm font-medium"
+                  style={{ color: "#C0523A" }}
+                >
+                  以上为账号运营案例
+                </span>
+                <span
+                  className="text-sm font-semibold"
+                  style={{ color: "#C0523A" }}
+                >
+                  ✨
+                </span>
               </div>
             </div>
           </div>
@@ -264,7 +590,7 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
 
       {selectedWork && (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4"
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4 overflow-y-auto"
           onClick={() => setSelectedWork(null)}
           style={{
             animation: "lightbox-fade-in 0.2s ease-out",
@@ -277,14 +603,14 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
             <X size={24} />
           </button>
           <div
-            className="max-h-[90vh] max-w-4xl w-full"
+            className="max-h-[90vh] max-w-4xl w-full my-8"
             onClick={(e) => e.stopPropagation()}
           >
             {selectedWork.type === "image" ? (
               <img
                 src={selectedWork.url}
                 alt={selectedWork.title}
-                className="max-h-[90vh] w-full object-contain"
+                className="max-h-[90vh] w-full object-contain rounded-2xl"
                 style={{ maxWidth: "90vw" }}
               />
             ) : (
@@ -293,7 +619,7 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
                 controls
                 autoPlay
                 className="max-h-[90vh] w-full object-contain"
-                style={{ borderRadius: "8px", maxWidth: "90vw" }}
+                style={{ borderRadius: "12px", maxWidth: "90vw" }}
               />
             )}
           </div>
@@ -304,20 +630,16 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
         @keyframes modal-fade-in {
           from {
             opacity: 0;
-            transform: scale(0.95);
+            transform: translateY(16px) scale(0.98);
           }
           to {
             opacity: 1;
-            transform: scale(1);
+            transform: translateY(0) scale(1);
           }
         }
         @keyframes lightbox-fade-in {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
+          from { opacity: 0; }
+          to   { opacity: 1; }
         }
       `}</style>
     </>
@@ -351,9 +673,9 @@ export default function AccountSection() {
       </h1>
 
       <div className="flex flex-col gap-4 md:flex-row md:gap-6">
-        <SummaryCard title="总浏览量/点击" value="50w+" highlightNumber />
-        <SummaryCard title="点赞数" value="1.1w" />
-        <SummaryCard title="互动数" value="800+" />
+        <SummaryCard title="总浏览量" value="60w+" highlightNumber />
+        <SummaryCard title="点赞收藏数" value="1.5w+" />
+        <SummaryCard title="运营账号数" value="3个" />
       </div>
 
       <h2
