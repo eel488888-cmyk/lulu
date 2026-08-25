@@ -1,6 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import NavBar from "@/components/NavBar";
 
 interface ExperienceItem {
   id: string;
@@ -136,55 +134,27 @@ function TimelineItem({ item, index }: { item: ExperienceItem; index: number }) 
   );
 }
 
-export default function ExperiencePage() {
+export default function ExperienceSection() {
   return (
-    <>
-      <NavBar visible />
-      <div
-        className="fixed inset-0 z-0"
+    <div className="max-w-5xl mx-auto px-5 md:px-10">
+      <h1
+        className="text-3xl font-semibold"
         style={{
-          backgroundImage: 'url("/images/bg-experience.png")',
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
-          backgroundAttachment: "fixed",
-          backgroundColor: "#F7F9FC",
+          color: "#2C3E50",
+          marginBottom: "60px",
         }}
-      />
-      <main
-        className="relative min-h-screen p-5 md:p-10 z-10"
       >
-        <div className="max-w-5xl mx-auto">
-          <h1
-            className="text-3xl font-semibold"
-            style={{
-              color: "#2C3E50",
-              marginTop: "100px",
-              marginBottom: "60px",
-            }}
-          >
-            个人经历
-          </h1>
+        个人经历
+      </h1>
 
-          {/* 时间线 */}
-          <div className="relative">
-            {EXPERIENCES.map((item, index) => (
-              <div key={item.id} className="relative mb-8 last:mb-0">
-                <TimelineItem item={item} index={index} />
-              </div>
-            ))}
+      {/* 时间线 */}
+      <div className="relative">
+        {EXPERIENCES.map((item, index) => (
+          <div key={item.id} className="relative mb-8 last:mb-0">
+            <TimelineItem item={item} index={index} />
           </div>
-
-          <div className="mt-16 text-center">
-            <Link
-              to="/"
-              state={{ scrollTo: "about" }}
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#FF6B6B] to-[#FF8E8E] px-7 py-3.5 font-round text-base font-semibold text-white shadow-[0_10px_30px_rgba(255,107,107,0.3)] transition-all hover:-translate-y-0.5"
-            >
-              返回首页
-            </Link>
-          </div>
-        </div>
-      </main>
-    </>
+        ))}
+      </div>
+    </div>
   );
 }

@@ -15,6 +15,10 @@ export interface PortfolioCard {
 export const NAV_ITEMS = [
   { label: "首页", target: "top" },
   { label: "关于我", target: "about" },
+  { label: "账号运营", target: "account" },
+  { label: "项目", target: "project" },
+  { label: "个人经历", target: "experience" },
+  { label: "技能", target: "skills" },
   { label: "联系方式", target: "contact" },
 ] as const;
 

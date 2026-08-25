@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { X } from "lucide-react";
-import NavBar from "@/components/NavBar";
 
 interface WorkItem {
   title: string;
@@ -326,7 +324,7 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
   );
 }
 
-export default function AccountPage() {
+export default function AccountSection() {
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -341,78 +339,45 @@ export default function AccountPage() {
   };
 
   return (
-    <>
-      <NavBar visible />
-      <div
-        className="fixed inset-0 z-0"
+    <div className="max-w-6xl mx-auto px-5 md:px-10">
+      <h1
+        className="text-4xl font-bold"
         style={{
-          backgroundImage: 'url("/images/bg-account.png")',
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
-          backgroundAttachment: "fixed",
-          backgroundColor: "#F7F9FC",
+          color: "#2C3E50",
+          marginBottom: "24px",
         }}
-      />
-      <main
-        className="relative min-h-screen p-5 md:p-10 z-10"
       >
-        <div className="max-w-6xl mx-auto">
-          {/* 页面标题 */}
-          <h1
-            className="text-4xl font-bold"
-            style={{
-              color: "#2C3E50",
-              marginTop: "100px",
-              marginBottom: "20px",
-            }}
-          >
-            帐号运营
-          </h1>
+        帐号运营
+      </h1>
 
-          {/* 汇总数据卡片 */}
-          <div className="flex flex-col gap-4 md:flex-row md:gap-6">
-            <SummaryCard title="总浏览量/点击" value="50w+" highlightNumber />
-            <SummaryCard title="点赞数" value="1.1w" />
-            <SummaryCard title="互动数" value="800+" />
-          </div>
+      <div className="flex flex-col gap-4 md:flex-row md:gap-6">
+        <SummaryCard title="总浏览量/点击" value="50w+" highlightNumber />
+        <SummaryCard title="点赞数" value="1.1w" />
+        <SummaryCard title="互动数" value="800+" />
+      </div>
 
-          {/* 运营账号标题 */}
-          <h2
-            className="mt-16 text-2xl font-semibold"
-            style={{ color: "#2C3E50" }}
-          >
-            运营账号
-          </h2>
+      <h2
+        className="mt-16 text-2xl font-semibold"
+        style={{ color: "#2C3E50" }}
+      >
+        运营账号
+      </h2>
 
-          {/* 账号卡片 */}
-          <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-3">
-            {ACCOUNTS.map((account) => (
-              <AccountCard
-                key={account.id}
-                account={account}
-                onClick={() => handleAccountClick(account)}
-              />
-            ))}
-          </div>
-
-          {/* 返回首页按钮 */}
-          <div className="mt-16 text-center">
-            <Link
-              to="/"
-              state={{ scrollTo: "about" }}
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#FF6B6B] to-[#FF8E8E] px-7 py-3.5 font-round text-base font-semibold text-white shadow-[0_10px_30px_rgba(255,107,107,0.3)] transition-all hover:-translate-y-0.5"
-            >
-              返回首页
-            </Link>
-          </div>
-        </div>
-      </main>
+      <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-3">
+        {ACCOUNTS.map((account) => (
+          <AccountCard
+            key={account.id}
+            account={account}
+            onClick={() => handleAccountClick(account)}
+          />
+        ))}
+      </div>
 
       <AccountModal
         account={selectedAccount}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
       />
-    </>
+    </div>
   );
 }

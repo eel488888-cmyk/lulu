@@ -1,85 +1,68 @@
-import { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import NavBar from "@/components/NavBar";
 import VideoIntro from "@/components/VideoIntro";
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
+import AccountSection from "@/pages/AccountPage";
+import ProjectSection from "@/pages/ProjectPage";
+import ExperienceSection from "@/pages/ExperiencePage";
+import SkillsSection from "@/pages/SkillsPage";
 import { useScrollPassed } from "@/hooks/useScrollPassed";
 
-type Stage = "cat" | "main" | "stopped" | "clip";
-
 export default function Home() {
-  const [skipIntro] = useState(
-    () => sessionStorage.getItem("visited") === "true" || sessionStorage.getItem("skipCatVideo") === "true",
-  );
-  const [stage, setStage] = useState<Stage>(skipIntro ? "stopped" : "cat");
-  const location = useLocation();
   const navDeep = useScrollPassed(window.innerHeight * 0.8);
-
-  const handleStageChange = useCallback((s: Stage) => setStage(s), []);
-
-  useEffect(() => {
-    const state = location.state as { scrollTo?: string } | null;
-    const hasExplicitTarget = !!state?.scrollTo;
-    const target = state?.scrollTo ?? (skipIntro ? "about" : undefined);
-    if (!target) return;
-
-    const behavior: ScrollBehavior = hasExplicitTarget ? "smooth" : "auto";
-    const t = window.setTimeout(() => {
-      if (target === "top") {
-        window.scrollTo({ top: 0, behavior });
-        return;
-      }
-      const el = document.getElementById(target);
-      if (el) el.scrollIntoView({ behavior, block: "start" });
-    }, 400);
-    return () => window.clearTimeout(t);
-  }, [location.state, skipIntro]);
-
-  useEffect(() => {
-    sessionStorage.removeItem("skipCatVideo");
-  }, []);
 
   return (
     <>
-      <NavBar
-        visible={skipIntro || stage !== "cat"}
-        deep={navDeep || skipIntro || stage !== "cat"}
-      />
-      <main
-        className="relative"
-        style={{ height: "300vh" }}
-      >
+      <NavBar visible deep={navDeep} />
+      <main className="relative">
+        {/* 首屏 - 定格画面 */}
+        <div className="relative h-screen w-full overflow-hidden">
+          <VideoIntro />
+        </div>
+
+        {/* 关于我 */}
+        <AboutSection />
+
+        {/* 账号运营 */}
         <section
-          className="relative h-screen w-full overflow-hidden"
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 1,
-          }}
+          id="account"
+          className="relative w-full scroll-mt-20 py-16 md:py-24"
+          style={{ background: "#F7F9FC" }}
         >
-          <VideoIntro onStageChange={handleStageChange} skipIntro={skipIntro} />
+          <AccountSection />
         </section>
+
+        {/* 项目 */}
         <section
-          className="relative h-screen w-full overflow-hidden"
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 2,
-          }}
+          id="project"
+          className="relative w-full scroll-mt-20 py-16 md:py-24"
+          style={{ background: "#FFFFFF" }}
         >
-          <AboutSection />
+          <ProjectSection />
         </section>
+
+        {/* 个人经历 */}
         <section
-          className="relative h-screen w-full overflow-hidden"
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 3,
-          }}
+          id="experience"
+          className="relative w-full scroll-mt-20 py-16 md:py-24"
+          style={{ background: "#F7F9FC" }}
         >
+          <ExperienceSection />
+        </section>
+
+        {/* 技能 */}
+        <section
+          id="skills"
+          className="relative w-full scroll-mt-20 py-16 md:py-24"
+          style={{ background: "#FFFFFF" }}
+        >
+          <SkillsSection />
+        </section>
+
+        {/* 联系方式 */}
+        <div className="relative h-screen w-full overflow-hidden">
           <ContactSection />
-        </section>
+        </div>
       </main>
     </>
   );

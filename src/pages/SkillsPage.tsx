@@ -1,6 +1,3 @@
-import { Link } from "react-router-dom";
-import NavBar from "@/components/NavBar";
-
 interface SkillCard {
   icon: string;
   title: string;
@@ -85,52 +82,24 @@ function SkillCardComponent({ card }: { card: SkillCard }) {
   );
 }
 
-export default function SkillsPage() {
+export default function SkillsSection() {
   return (
-    <>
-      <NavBar visible />
-      <div
-        className="fixed inset-0 z-0"
+    <div className="max-w-6xl mx-auto px-5 md:px-10">
+      <h1
+        className="text-3xl font-semibold"
         style={{
-          backgroundImage: 'url("/images/bg-skills.png")',
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
-          backgroundAttachment: "fixed",
-          backgroundColor: "#F7F9FC",
+          color: "#2C3E50",
+          marginBottom: "40px",
         }}
-      />
-      <main
-        className="relative min-h-screen p-5 md:p-10 z-10"
       >
-        <div className="max-w-6xl mx-auto">
-          <h1
-            className="text-3xl font-semibold"
-            style={{
-              color: "#2C3E50",
-              marginTop: "100px",
-              marginBottom: "40px",
-            }}
-          >
-            技能与证书
-          </h1>
+        技能与证书
+      </h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {SKILL_CARDS.map((card, index) => (
-              <SkillCardComponent key={index} card={card} />
-            ))}
-          </div>
-
-          <div className="mt-16 text-center">
-            <Link
-              to="/"
-              state={{ scrollTo: "about" }}
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#FF6B6B] to-[#FF8E8E] px-7 py-3.5 font-round text-base font-semibold text-white shadow-[0_10px_30px_rgba(255,107,107,0.3)] transition-all hover:-translate-y-0.5"
-            >
-              返回首页
-            </Link>
-          </div>
-        </div>
-      </main>
-    </>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {SKILL_CARDS.map((card, index) => (
+          <SkillCardComponent key={index} card={card} />
+        ))}
+      </div>
+    </div>
   );
 }
