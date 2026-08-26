@@ -25,7 +25,6 @@ const SOCIALS = [
 export default function ContactSection() {
   const { copiedKey, copy } = useClipboard();
   const [downloading, setDownloading] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   const RESUME_URL = "/王鹭芳_简历.pdf";
   const RESUME_FILE_NAME = "王鹭芳_简历.pdf";
@@ -48,40 +47,21 @@ export default function ContactSection() {
     }
   };
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-
-  const handleImageError = () => {
-    console.warn("联系我背景图加载失败");
-  };
-
   return (
     <section
       id="contact"
-      className="relative overflow-hidden flex items-center justify-center"
+      className="relative overflow-hidden flex items-center justify-center min-h-[100dvh] md:min-h-screen"
       style={{
-        height: "100%",
-        backgroundImage: imageLoaded ? `url('/images/bg-contact.jpg')` : undefined,
-        backgroundSize: imageLoaded ? "cover" : undefined,
-        backgroundPosition: imageLoaded ? "center center" : undefined,
-        backgroundAttachment: imageLoaded ? "fixed" : undefined,
-        backgroundColor: imageLoaded ? undefined : "#F7F9FC",
+        backgroundImage: `url('/images/bg-contact.jpg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center center",
+        backgroundAttachment: "scroll",
+        backgroundColor: "#2C3E50",
       }}
     >
-      {!imageLoaded && (
-        <img
-          src="/images/bg-contact.jpg"
-          alt=""
-          className="hidden"
-          onLoad={handleImageLoad}
-          onError={handleImageError}
-        />
-      )}
-
       <div className="absolute inset-0 bg-black/30" />
 
-      <div className="relative mx-auto max-w-3xl px-5 text-center md:px-8">
+      <div className="relative mx-auto max-w-3xl px-5 text-center md:px-8 py-16 md:py-0">
         <Reveal>
           <span className="inline-block rounded-full bg-white/60 px-4 py-1.5 text-sm font-semibold text-coral">
             Contact · 联系方式

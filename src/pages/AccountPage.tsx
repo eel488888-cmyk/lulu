@@ -298,7 +298,7 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
         onClick={onClose}
       >
         <div
-          className="w-full max-w-3xl my-8 rounded-3xl overflow-hidden"
+          className="w-full max-w-3xl my-4 md:my-8 rounded-2xl md:rounded-3xl overflow-hidden"
           style={{
             background: "#FFFDF8",
             animation: "modal-fade-in 0.25s ease-out",
@@ -308,7 +308,7 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
         >
           <div className="relative">
             <button
-              className="fixed right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow-md transition-colors hover:bg-white hover:text-gray-800"
+              className="absolute right-3 top-3 md:right-6 md:top-6 z-10 flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow-md transition-colors hover:bg-white hover:text-gray-800"
               onClick={onClose}
             >
               <X size={20} />
@@ -316,7 +316,7 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
 
             {/* 顶部作品图片区（参考图片顶部拼贴风格） */}
             <div
-              className="w-full px-6 pt-8 pb-2"
+              className="w-full px-4 pt-6 pb-2 md:px-6 md:pt-8"
               style={{ background: "linear-gradient(180deg, #FFF6E8 0%, #FFFDF8 100%)" }}
             >
               <div className="grid grid-cols-3 gap-2">
@@ -377,7 +377,7 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
               </div>
             </div>
 
-            <div className="px-8 py-6">
+            <div className="px-4 py-4 md:px-8 md:py-6">
               {/* 标签 */}
               <div className="mb-3 flex flex-wrap gap-2">
                 <span
@@ -409,11 +409,12 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
 
               {/* 账号名称 */}
               <h2
-                className="text-4xl font-bold"
+                className="text-2xl font-bold md:text-4xl"
                 style={{
                   color: "#2B2216",
                   fontFamily: '"Noto Serif SC", "Noto Serif", serif',
                   letterSpacing: "-0.01em",
+                  overflowWrap: "break-word",
                 }}
               >
                 {account.name}
@@ -446,19 +447,20 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
                         style={{ background: "#FF6B6B" }}
                       />
                       <h3
-                        className="font-bold text-lg"
+                        className="font-bold text-base md:text-lg"
                         style={{ color: "#2B2216" }}
                       >
                         {detail.title}
                       </h3>
                     </div>
                     <p
-                      className="pl-3 text-sm leading-relaxed"
+                      className="pl-3 text-sm leading-relaxed overflow-hidden"
                       style={{
                         color: "#5A4A35",
                         lineHeight: "1.9",
                         whiteSpace: "normal",
-                        overflowWrap: "anywhere",
+                        overflowWrap: "break-word",
+                        wordBreak: "break-word",
                       }}
                     >
                       {detail.content}
@@ -476,7 +478,7 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
                       style={{ background: "#FF6B6B" }}
                     />
                     <h3
-                      className="font-bold text-lg"
+                      className="font-bold text-base md:text-lg"
                       style={{ color: "#2B2216" }}
                     >
                       作品展示

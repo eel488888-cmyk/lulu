@@ -3,21 +3,32 @@ import { STRENGTHS, TOOLS } from "@/data/portfolio";
 
 export default function AboutSection() {
   const [videoLoaded, setVideoLoaded] = useState(false);
-  const [videoError, setVideoError] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
+  const [bgImageLoaded, setBgImageLoaded] = useState(false);
 
+  // 移动端不加载视频，直接用图片；桌面端尝试加载视频
   useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (isMobile) {
+      // 移动端直接用图片背景
+      const img = new Image();
+      img.onload = () => setBgImageLoaded(true);
+      img.src = "/images/eyes.png";
+      return;
+    }
+    // 桌面端优先视频
     const video = document.createElement("video");
     video.onloadeddata = () => setVideoLoaded(true);
     video.onerror = () => {
-      setVideoError(true);
+      // 视频失败则用图片
       const img = new Image();
-      img.onload = () => setImageLoaded(true);
-      img.onerror = () => setImageError(true);
+      img.onload = () => setBgImageLoaded(true);
       img.src = "/images/eyes.png";
     };
     video.src = "/videos/bg-eyes.mp4";
+    // 同时预加载图片作为 fallback
+    const img = new Image();
+    img.onload = () => setBgImageLoaded(true);
+    img.src = "/images/eyes.png";
   }, []);
 
   return (
@@ -25,8 +36,9 @@ export default function AboutSection() {
       id="about"
       className="relative w-full min-h-screen overflow-hidden"
       style={{
-        background: imageError ? "#1A1A1A" : undefined,
-        backgroundImage: videoError && imageLoaded ? 'url("/images/eyes.png")' : undefined,
+        backgroundColor: "#1A1A1A",
+        backgroundImage:
+          !videoLoaded && bgImageLoaded ? 'url("/images/eyes.png")' : undefined,
         backgroundSize: "cover",
         backgroundPosition: "center center",
       }}
@@ -45,35 +57,35 @@ export default function AboutSection() {
       )}
 
       {/* 左上角标题与描述 */}
-      <div className="absolute z-20" style={{ left: "40px", top: "100px" }}>
+      <div className="absolute z-20 left-5 top-20 md:left-10 md:top-24 max-w-[calc(100%-40px)] md:max-w-none">
         <h2
           className="font-bold"
           style={{
             fontFamily: "Inter, SF Pro Display, Roboto, system-ui, sans-serif",
-            fontSize: "56px",
             fontWeight: 800,
             lineHeight: 1.1,
             letterSpacing: "-0.02em",
             color: "#000000",
-            whiteSpace: "nowrap",
             textShadow: "0 2px 10px rgba(0,0,0,0.3)",
           }}
         >
-          你好，我是王鹭芳。
+          <span className="block text-3xl md:text-[56px]">
+            你好，我是王鹭芳。
+          </span>
         </h2>
 
         <p
           className="mt-4"
           style={{
-            fontSize: "16px",
             fontWeight: 400,
             lineHeight: 1.6,
             color: "rgba(0,0,0,0.85)",
-            whiteSpace: "nowrap",
             textShadow: "0 2px 10px rgba(0,0,0,0.3)",
           }}
         >
-          热爱内容创作与策划，努力用AI把灵感变成作品。
+          <span className="block text-sm md:text-base">
+            热爱内容创作与策划，努力用AI把灵感变成作品。
+          </span>
         </p>
 
         {/* 擅长标签 */}
@@ -125,28 +137,6 @@ export default function AboutSection() {
           ↓
         </span>
       </div>
-
-      {/* 移动端响应式样式 */}
-      <style>{`
-        @media (max-width: 768px) {
-          .absolute[style*="left: 40px"] {
-            left: 24px !important;
-            top: 80px !important;
-          }
-          h2[style*="fontSize: 56px"] {
-            font-size: 36px !important;
-            white-space: normal !important;
-            text-shadow: 0 2px 12px rgba(0,0,0,0.4) !important;
-            -webkit-text-stroke: 0.3px rgba(0,0,0,0.2);
-          }
-          p[style*="fontSize: 16px"] {
-            font-size: 14px !important;
-            white-space: normal !important;
-            text-shadow: 0 2px 12px rgba(0,0,0,0.4) !important;
-            -webkit-text-stroke: 0.2px rgba(0,0,0,0.15);
-          }
-        }
-      `}</style>
     </section>
   );
 }

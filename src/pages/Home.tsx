@@ -60,7 +60,7 @@ export default function Home() {
         </section>
 
         {/* 联系方式 */}
-        <div className="relative h-screen w-full overflow-hidden">
+        <div className="relative w-full overflow-hidden">
           <ContactSection />
         </div>
       </main>

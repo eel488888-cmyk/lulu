@@ -80,11 +80,11 @@ function TimelineItem({ item, index }: { item: ExperienceItem; index: number }) 
   return (
     <div
       ref={itemRef}
-      className={`relative flex items-center ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}
+      className={`relative flex flex-col md:flex-row items-center ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}
     >
       {/* 左侧/右侧卡片 */}
       <div
-        className={`w-full md:w-[45%] rounded-xl p-5 transition-all duration-500 ${
+        className={`w-full md:w-[45%] rounded-xl p-4 md:p-5 transition-all duration-500 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         } ${isLeft ? "md:text-right md:mr-8" : "md:text-left md:ml-8"}`}
         style={{
@@ -125,11 +125,11 @@ function TimelineItem({ item, index }: { item: ExperienceItem; index: number }) 
         </ul>
       </div>
 
-      {/* 中央节点 */}
-      <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#FF6B6B] border-4 border-[#F7F9FC] z-10" />
+      {/* 中央节点 - 移动端隐藏 */}
+      <div className="hidden md:block absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#FF6B6B] border-4 border-[#F7F9FC] z-10" />
 
-      {/* 竖线 */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-[#E2E8F0] z-0" />
+      {/* 竖线 - 移动端隐藏 */}
+      <div className="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-[#E2E8F0] z-0" />
     </div>
   );
 }
