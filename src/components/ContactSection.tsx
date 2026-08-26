@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Mail,
   Phone,
@@ -24,28 +23,9 @@ const SOCIALS = [
 
 export default function ContactSection() {
   const { copiedKey, copy } = useClipboard();
-  const [downloading, setDownloading] = useState(false);
 
   const RESUME_URL = "/王鹭芳_简历.pdf";
   const RESUME_FILE_NAME = "王鹭芳_简历.pdf";
-
-  const handleDownload = () => {
-    setDownloading(true);
-    try {
-      const link = document.createElement("a");
-      link.href = RESUME_URL;
-      link.download = RESUME_FILE_NAME;
-      link.rel = "noopener";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (e) {
-      // 兜底：直接在新标签打开
-      window.open(RESUME_URL, "_blank", "noopener");
-    } finally {
-      window.setTimeout(() => setDownloading(false), 1500);
-    }
-  };
 
   return (
     <section
@@ -148,16 +128,18 @@ export default function ContactSection() {
 
         <Reveal delay={280}>
           <div className="mt-10">
-            <button
-              onClick={handleDownload}
+            <a
+              href={RESUME_URL}
+              download={RESUME_FILE_NAME}
+              rel="noopener"
               className={cn(
                 "inline-flex items-center gap-2 rounded-full px-8 py-3.5 font-round text-base font-semibold text-white shadow-[0_10px_30px_rgba(255,107,122,0.4)] transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(255,107,122,0.55)]",
                 "bg-gradient-to-r from-coral to-[#ff9a6c]",
               )}
             >
               <Download size={18} />
-              {downloading ? "准备中…" : "下载简历 PDF"}
-            </button>
+              下载简历 PDF
+            </a>
           </div>
         </Reveal>
       </div>
