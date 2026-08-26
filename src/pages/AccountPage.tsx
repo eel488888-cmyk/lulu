@@ -680,12 +680,15 @@ export default function AccountSection() {
         <SummaryCard title="运营账号数" value="3个" />
       </div>
 
-      <h2
-        className="mt-16 text-2xl font-semibold"
-        style={{ color: "#2C3E50" }}
-      >
-        运营账号
-      </h2>
+      <div className="mt-16 flex items-baseline gap-2">
+        <h2
+          className="text-2xl font-semibold"
+          style={{ color: "#2C3E50" }}
+        >
+          运营账号
+        </h2>
+        <span className="text-xs text-gray-400">（点击卡片了解详情）</span>
+      </div>
 
       <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-3">
         {ACCOUNTS.map((account) => (
