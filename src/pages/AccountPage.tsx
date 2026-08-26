@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface WorkItem {
   title: string;
@@ -104,14 +104,14 @@ const ACCOUNTS: Account[] = [
     placeholderText: "小红书摄影",
     coverImage: "/images/account-photo-cover.jpg",
     works: [
-      { title: "樱花JK写真笔记", type: "image", url: "/images/photo-orig-1-sakura-jk.webp" },
-      { title: "青苹果仿拍构图教程", type: "image", url: "/images/photo-orig-2-apple-tutorial.png" },
-      { title: "毕业封神照", type: "image", url: "/images/photo-orig-3-graduation-fengshen.png" },
-      { title: "郑大拜拜毕业照", type: "image", url: "/images/photo-orig-4-zzu-bye.png" },
-      { title: "杨超越写真复刻", type: "image", url: "/images/photo-ycy-replica.jpg" },
+      { title: "樱花JK写真笔记", type: "image", url: "/images/photography-1.jpg" },
+      { title: "青苹果仿拍构图教程", type: "image", url: "/images/photography-2.jpg" },
+      { title: "毕业封神照", type: "image", url: "/images/photography-3.jpg" },
+      { title: "杨超越写真复刻", type: "image", url: "/images/photography-4.jpg" },
       { title: "田园少女写真", type: "image", url: "/images/photography-5.jpg" },
       { title: "日系胶片人像", type: "image", url: "/images/photography-6.jpg" },
       { title: "户外清新写真", type: "image", url: "/images/photography-8.jpg" },
+      { title: "杨超越写真复刻", type: "image", url: "/images/photo-ycy-replica.jpg" },
     ],
   },
   {
@@ -292,7 +292,16 @@ function HighlightCard({ highlight }: { highlight: Highlight }) {
 
 function AccountModal({ account, isOpen, onClose }: { account: Account | null; isOpen: boolean; onClose: () => void }) {
   const [selectedWork, setSelectedWork] = useState<WorkItem | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+
+  const works = account?.works ?? [];
+  const goToIndex = (idx: number) => {
+    if (works.length === 0) return;
+    const next = ((idx % works.length) + works.length) % works.length;
+    setSelectedIndex(next);
+    setSelectedWork(works[next]);
+  };
 
   const handleImageError = (index: number, url: string) => {
     console.warn(`图片加载失败: ${url}`);
@@ -519,7 +528,10 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
                         <div
                           key={index}
                           className="cursor-pointer group rounded-xl overflow-hidden shadow-md transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
-                          onClick={() => setSelectedWork(work)}
+                          onClick={() => {
+                            setSelectedIndex(index);
+                            setSelectedWork(work);
+                          }}
                         >
                           {work.type === "image" ? (
                             imageErrors.has(index) ? (
@@ -609,38 +621,64 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
       {selectedWork && (
         <div
           className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4 overflow-y-auto"
-          onClick={() => setSelectedWork(null)}
+          onClick={() => { setSelectedWork(null); setSelectedIndex(-1); }}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowLeft") goToIndex(selectedIndex - 1);
+            if (e.key === "ArrowRight") goToIndex(selectedIndex + 1);
+            if (e.key === "Escape") { setSelectedWork(null); setSelectedIndex(-1); }
+          }}
+          tabIndex={0}
           style={{
             animation: "lightbox-fade-in 0.2s ease-out",
           }}
         >
           <button
             className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-            onClick={() => setSelectedWork(null)}
+            onClick={() => { setSelectedWork(null); setSelectedIndex(-1); }}
           >
             <X size={24} />
           </button>
+          {works.length > 1 && (
+            <button
+              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              onClick={(e) => { e.stopPropagation(); goToIndex(selectedIndex - 1); }}
+            >
+              <ChevronLeft size={28} />
+            </button>
+          )}
+          {works.length > 1 && (
+            <button
+              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              onClick={(e) => { e.stopPropagation(); goToIndex(selectedIndex + 1); }}
+            >
+              <ChevronRight size={28} />
+            </button>
+          )}
           <div
-            className="max-h-[90vh] max-w-4xl w-full my-8"
+            className="my-8 flex w-full max-w-none items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
             {selectedWork.type === "image" ? (
               <img
                 src={selectedWork.url}
                 alt={selectedWork.title}
-                className="max-h-[90vh] w-full object-contain rounded-2xl"
-                style={{ maxWidth: "90vw" }}
+                className="h-auto w-auto max-h-[90dvh] max-w-[92vw] object-contain rounded-2xl shadow-2xl"
               />
             ) : (
               <video
                 src={selectedWork.url}
                 controls
                 autoPlay
-                className="max-h-[90vh] w-full object-contain"
-                style={{ borderRadius: "12px", maxWidth: "90vw" }}
+                className="max-h-[90dvh] w-auto max-w-[92vw] object-contain"
+                style={{ borderRadius: "12px" }}
               />
             )}
           </div>
+          {works.length > 1 && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm">
+              {selectedIndex + 1} / {works.length}
+            </div>
+          )}
         </div>
       )}
 
