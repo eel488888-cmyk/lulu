@@ -16,6 +16,7 @@ interface Highlight {
 interface Account {
   id: string;
   name: string;
+  handle: string;
   platform: string;
   dateRange: string;
   role: string;
@@ -34,6 +35,7 @@ const ACCOUNTS: Account[] = [
   {
     id: "douyin-ai",
     name: "抖音AI账号",
+    handle: "叫我小矩",
     platform: "抖音",
     dateRange: "2026.07.22 – 至今",
     role: "独立运营 · AIGC内容创作",
@@ -72,43 +74,9 @@ const ACCOUNTS: Account[] = [
     ],
   },
   {
-    id: "xiaohongshu-entertainment",
-    name: "小红书影视娱乐账号",
-    platform: "小红书",
-    dateRange: "2024.04 – 2025.06",
-    role: "内容策划与运营 · 影视垂类",
-    summary: "输出原创内容38篇，累计浏览量40w+，赞藏1.1w+，策划\"文学学生水平下降一万倍\"系列、\"诺贝尔文学奖换人\"等爆款选题，总结出强共鸣标题与利他性教程结合的爆款公式，账号互动率提升76%。",
-    highlights: [
-      { value: "40W+", label: "累计浏览量", accent: "coral" },
-      { value: "4K+", label: "单篇最高点赞", accent: "sunny" },
-      { value: "+76%", label: "互动率提升", accent: "mint" },
-      { value: "爆款公式", label: "标题+教程", accent: "lavender" },
-    ],
-    details: [
-      {
-        title: "内容策划与爆款产出",
-        content: "运营影视垂类账号，输出原创内容，策划\"文学学生水平下降一万倍\"系列、\"诺贝尔文学奖换人\"等爆款选题，单篇最高点赞4177，总结出强共鸣标题与利他性教程结合的爆款公式，账号互动率提升76%。",
-      },
-      {
-        title: "用户增长与运营",
-        content: "执行账号日常运营策略，通过用户画像分析与博主对标，采用\"教程+成片\"模式提升转化，策划粉丝互动活动。",
-      },
-      {
-        title: "数据分析",
-        content: "以周为维度监控账号核心数据并进行复盘，通过数据驱动内容优化与策略调整。",
-      },
-    ],
-    placeholderText: "小红书影视",
-    coverImage: "/images/account-drama-cover.jpg",
-    works: [
-      { title: "账号主页-一个水罐", type: "image", url: "/images/xhs-home.jpg" },
-      { title: "文学学生爆款笔记", type: "image", url: "/images/xhs-literature-student.jpg" },
-      { title: "诺奖换人爆款笔记", type: "image", url: "/images/xhs-nobel-prize.jpg" },
-    ],
-  },
-  {
     id: "xiaohongshu-photo",
     name: "小红书摄影账号",
+    handle: "图南北西东",
     platform: "小红书",
     dateRange: "2024.04 – 2025.06",
     role: "内容策划与运营 · 摄影垂类",
@@ -144,6 +112,42 @@ const ACCOUNTS: Account[] = [
       { title: "田园少女写真", type: "image", url: "/images/photography-5.jpg" },
       { title: "日系胶片人像", type: "image", url: "/images/photography-6.jpg" },
       { title: "户外清新写真", type: "image", url: "/images/photography-8.jpg" },
+    ],
+  },
+  {
+    id: "xiaohongshu-entertainment",
+    name: "小红书影视娱乐账号",
+    handle: "一个水罐",
+    platform: "小红书",
+    dateRange: "2024.04 – 2025.06",
+    role: "内容策划与运营 · 影视垂类",
+    summary: "输出原创内容38篇，累计浏览量40w+，赞藏1.1w+，策划\"文学学生水平下降一万倍\"系列、\"诺贝尔文学奖换人\"等爆款选题，总结出强共鸣标题与利他性教程结合的爆款公式，账号互动率提升76%。",
+    highlights: [
+      { value: "40W+", label: "累计浏览量", accent: "coral" },
+      { value: "4K+", label: "单篇最高点赞", accent: "sunny" },
+      { value: "+76%", label: "互动率提升", accent: "mint" },
+      { value: "爆款公式", label: "标题+教程", accent: "lavender" },
+    ],
+    details: [
+      {
+        title: "内容策划与爆款产出",
+        content: "运营影视垂类账号，输出原创内容，策划\"文学学生水平下降一万倍\"系列、\"诺贝尔文学奖换人\"等爆款选题，单篇最高点赞4177，总结出强共鸣标题与利他性教程结合的爆款公式，账号互动率提升76%。",
+      },
+      {
+        title: "用户增长与运营",
+        content: "执行账号日常运营策略，通过用户画像分析与博主对标，采用\"教程+成片\"模式提升转化，策划粉丝互动活动。",
+      },
+      {
+        title: "数据分析",
+        content: "以周为维度监控账号核心数据并进行复盘，通过数据驱动内容优化与策略调整。",
+      },
+    ],
+    placeholderText: "小红书影视",
+    coverImage: "/images/account-drama-cover.jpg",
+    works: [
+      { title: "账号主页-一个水罐", type: "image", url: "/images/xhs-home.jpg" },
+      { title: "文学学生爆款笔记", type: "image", url: "/images/xhs-literature-student.jpg" },
+      { title: "诺奖换人爆款笔记", type: "image", url: "/images/xhs-nobel-prize.jpg" },
     ],
   },
 ];
@@ -235,6 +239,12 @@ function AccountCard({ account, onClick }: { account: Account; onClick: () => vo
           style={{ color: "#2C3E50" }}
         >
           {account.name}
+          <span
+            className="ml-2 text-sm font-normal"
+            style={{ color: "#FF6B6B" }}
+          >
+            @{account.handle}
+          </span>
         </h3>
         <p
           className="mt-1 text-xs"
@@ -418,6 +428,12 @@ function AccountModal({ account, isOpen, onClose }: { account: Account | null; i
                 }}
               >
                 {account.name}
+                <span
+                  className="ml-2 text-base font-normal md:text-xl"
+                  style={{ color: "#C0523A" }}
+                >
+                  @{account.handle}
+                </span>
               </h2>
 
               {/* 一句话总结 */}
